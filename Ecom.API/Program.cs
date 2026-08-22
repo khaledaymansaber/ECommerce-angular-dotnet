@@ -13,7 +13,7 @@ namespace Ecom.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.InfrastructureConfiguration(builder.Configuration);
-
+            builder.Services.AddAutoMapper(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
