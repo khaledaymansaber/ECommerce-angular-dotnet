@@ -5,14 +5,15 @@ using System.Text;
 
 namespace Ecom.Core.DTO
 {
-    public record ProductDTO(
-        int Id,
-        string Name,
-        string Description,
-        decimal Price,
-        string CategoryName,
-        IReadOnlyList<PhotoDTO> Photos
-    );
+    public record ProductDTO()
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public string CategoryName { get; set; }
+        public IReadOnlyList<PhotoDTO> Photos { get; set; }
+    }
     public record AddProductDTO()
     {
         public string Name { get; set; }
