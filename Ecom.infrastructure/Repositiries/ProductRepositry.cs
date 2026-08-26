@@ -63,6 +63,39 @@ namespace Ecom.infrastructure.Repositiries
             context.Products.Remove(product);
            await context.SaveChangesAsync();
         }
+        public static readonly Dictionary<string, Func<IQueryable<Product>, IOrderedQueryable<Product>>> _sortStrategies =
+            new(StringComparer.OrdinalIgnoreCase)
+        {
+            { "PriceAsn", q => q.OrderBy(m => m.NewPrice) },
+            { "PriceDes", q => q.OrderByDescending(m => m.NewPrice) },
+            { "Name", q => q.OrderBy(m => m.Name) }
+        };
+        public async Task<IEnumerable<ProductDTO>> GetAllAsync(string? sort,int? categoryId, int page_number, int page_size)
+        {
+            var query = context.Products
+                .Include(m => m.Category)
+                .Include(m => m.Photos)
+                .AsNoTracking();
+            if (categoryId.HasValue && categoryId.Value > 0)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+
+            if (!string.IsNullOrEmpty(sort) && _sortStrategies.TryGetValue(sort, out var sortFunc))
+            {
+                query = sortFunc(query);
+            }
+            else
+            {
+                query = query.OrderBy(m => m.Name);
+            }
+            page_number = page_number <= 0 ? 1 : page_number;
+            page_size = page_size <= 0 ? 3 : page_size;
+            query = query.Skip((page_number - 1) * page_size).Take(page_size);
+            var products = await query.ToListAsync();
+            var result = _mapper.Map<List<ProductDTO>>(products);
+            return result;
+        }
 
         public async Task<bool> UpdateAsync(UpdateProductDTO updateProductDTO)
         {
@@ -106,6 +139,8 @@ namespace Ecom.infrastructure.Repositiries
             return true;
         }
         
+      
+
 
 
     }

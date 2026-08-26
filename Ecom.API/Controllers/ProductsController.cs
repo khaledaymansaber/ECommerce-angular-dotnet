@@ -17,16 +17,15 @@ namespace Ecom.API.Controllers
 
         }
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string? type_of_sort,int? categoryId,int page_number,int page_size)
         {
             try
             {
-                var products = await unitOfWork.Products.GetAllAsync(p => p.Category, p => p.Photos);
+                var products = await unitOfWork.Products.GetAllAsync(type_of_sort, categoryId,  page_number,  page_size);
                 if (products == null)
                     return BadRequest(new ResponseAPI(400));
-                var productsDto = mapper.Map<IReadOnlyList<ProductDTO>>(products);
 
-                return Ok(productsDto);
+                return Ok(products);
             }
             catch (Exception ex)
             {

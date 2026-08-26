@@ -10,6 +10,7 @@ namespace Ecom.Core.Interfaces
     {
       Task<bool> AddAsync(AddProductDTO AddproductDTO);
       Task<bool> UpdateAsync(UpdateProductDTO UpdateProductDTO);
-        Task DeleteAsync(Product product);
+      Task DeleteAsync(Product product);
+      Task<IEnumerable<ProductDTO>> GetAllAsync(string? sort,int? categoryId,int page_number, int page_size);
     }
 }
