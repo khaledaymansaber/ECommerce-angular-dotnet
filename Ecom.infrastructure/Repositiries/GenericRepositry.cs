@@ -3,6 +3,7 @@ using Ecom.infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Ecom.infrastructure.Repositiries
@@ -20,6 +21,11 @@ namespace Ecom.infrastructure.Repositiries
         {
            await _context.Set<T>().AddAsync(entity);
            await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> CountAllAsync()
+        {
+         return await _context.Set<T>().CountAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -67,5 +73,7 @@ namespace Ecom.infrastructure.Repositiries
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
+        
     }
 }

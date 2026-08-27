@@ -4,6 +4,7 @@ using Ecom.Core;
 using Ecom.Core.DTO;
 using Ecom.Core.Entities.Product;
 using Ecom.Core.Interfaces;
+using Ecom.Core.Shairing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,12 @@ namespace Ecom.API.Controllers
 
         }
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll(string? type_of_sort,int? categoryId,int page_number,int page_size)
+        public async Task<IActionResult> GetAll([FromQuery]ProductParams productParams)
         {
             try
             {
-                var products = await unitOfWork.Products.GetAllAsync(type_of_sort, categoryId,  page_number,  page_size);
+                var products = await unitOfWork.Products.GetAllAsync(productParams);
+                
                 if (products == null)
                     return BadRequest(new ResponseAPI(400));
 

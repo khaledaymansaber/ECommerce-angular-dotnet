@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Ecom.API.Helper;
 using Ecom.Core.DTO;
 using Ecom.Core.Entities.Product;
 using Ecom.Core.Interfaces;
 using Ecom.Core.Services;
+using Ecom.Core.Shairing;
 using Ecom.infrastructure.Data;
 using Ecom.infrastructure.Repositiries.Service;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -70,18 +72,19 @@ namespace Ecom.infrastructure.Repositiries
             { "PriceDes", q => q.OrderByDescending(m => m.NewPrice) },
             { "Name", q => q.OrderBy(m => m.Name) }
         };
-        public async Task<IEnumerable<ProductDTO>> GetAllAsync(string? sort,int? categoryId, int page_number, int page_size)
+        public async Task<Pagination<ProductDTO>> GetAllAsync(ProductParams productParams)
         {
             var query = context.Products
                 .Include(m => m.Category)
                 .Include(m => m.Photos)
                 .AsNoTracking();
-            if (categoryId.HasValue && categoryId.Value > 0)
+
+            if (productParams.CategoryId.HasValue && productParams.CategoryId.Value > 0)
             {
-                query = query.Where(p => p.CategoryId == categoryId.Value);
+                query = query.Where(p => p.CategoryId == productParams.CategoryId.Value);
             }
 
-            if (!string.IsNullOrEmpty(sort) && _sortStrategies.TryGetValue(sort, out var sortFunc))
+            if (!string.IsNullOrEmpty(productParams.Sort) && _sortStrategies.TryGetValue(productParams.Sort, out var sortFunc))
             {
                 query = sortFunc(query);
             }
@@ -89,12 +92,13 @@ namespace Ecom.infrastructure.Repositiries
             {
                 query = query.OrderBy(m => m.Name);
             }
-            page_number = page_number <= 0 ? 1 : page_number;
-            page_size = page_size <= 0 ? 3 : page_size;
-            query = query.Skip((page_number - 1) * page_size).Take(page_size);
+            var totalItems = await query.CountAsync();
+            query = query.Skip((productParams.PageNumber - 1) * productParams.pageSize).Take(productParams.pageSize);
+
             var products = await query.ToListAsync();
-            var result = _mapper.Map<List<ProductDTO>>(products);
-            return result;
+            var mappedData = _mapper.Map<List<ProductDTO>>(products);
+
+            return new Pagination<ProductDTO>(totalItems ,productParams.PageNumber, productParams.pageSize,mappedData);
         }
 
         public async Task<bool> UpdateAsync(UpdateProductDTO updateProductDTO)
