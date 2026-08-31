@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a routerLink="/" class="navbar-brand">
+      <img src="./favicon.ico" alt="" class="logo" />
+      <i class="text-white">E-commerce</i>
+    </a>
+
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a routerLink="/" class="nav-link">Home</a></li>
+        <li class="nav-item"><a routerLink="/shopping" class="nav-link">Shopping</a></li>
+        <li class="nav-item"><a routerLink="/about" class="nav-link">About us</a></li>
+        <li class="nav-item"><a routerLink="/best-seller" class="nav-link">Best seller</a></li>
+      </ul>
+
+      <form class="form-inline mx-auto">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="search..."
+            name="search"
+            id="searchInput"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-light" type="button">
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <ul class="navbar-nav ml-auto align-items-center">
+        <li class="nav-item">
+          <a routerLink="/cart" class="nav-link">
+            <i class="material-icons">shopping_cart</i>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            role="button"
+            (click)="ToggleDropdown()"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            style="cursor: pointer"
+          >
+            <i class="material-icons">account_circle</i>
+          </a>
+          <div [ngClass]="{'show' :isDropdownOpen}" class="dropdown-menu dropdown-menu-right">
+            <a routerLink="/register" class="dropdown-item"
+              >Register <i class="fa fa-user-plus"></i
+            ></a>
+            <a routerLink="/login" class="dropdown-item">Login <i class="fa fa-sign-in"></i></a>
+            <a routerLink="/orders" class="dropdown-item">My Order <i class="fa fa-list"></i></a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

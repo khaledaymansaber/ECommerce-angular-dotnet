@@ -1,0 +1,8 @@
+<app-nav-bar></app-nav-bar>
+
+<ul>
+  @for (item of Product(); track $index) {
+      <li>{{item.name}}</li>
+  }
+</ul>
+
