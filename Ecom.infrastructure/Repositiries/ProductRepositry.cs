@@ -78,7 +78,25 @@ namespace Ecom.infrastructure.Repositiries
                 .Include(m => m.Category)
                 .Include(m => m.Photos)
                 .AsNoTracking();
+            if (!string.IsNullOrEmpty(productParams.Search))
+            {
+                var searchOriginal = productParams.Search.ToLower();
+                var searchWords = searchOriginal
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
 
+                
+                query = query.Where(p =>
+                    searchWords.Any(word => p.Name.ToLower().Contains(word)) ||
+                    searchWords.Any(word => p.Description.ToLower().Contains(word))
+                );
+
+                query = query
+                    .OrderByDescending(p => p.Name.ToLower() == searchOriginal)      
+                    .ThenByDescending(p => p.Name.ToLower().Contains(searchOriginal))
+                    .ThenByDescending(p => p.Description.ToLower().Contains(searchOriginal))
+                    .ThenBy(p => p.Name); 
+            }
             if (productParams.CategoryId.HasValue && productParams.CategoryId.Value > 0)
             {
                 query = query.Where(p => p.CategoryId == productParams.CategoryId.Value);
@@ -88,7 +106,7 @@ namespace Ecom.infrastructure.Repositiries
             {
                 query = sortFunc(query);
             }
-            else
+            else if (string.IsNullOrEmpty(productParams.Search))
             {
                 query = query.OrderBy(m => m.Name);
             }

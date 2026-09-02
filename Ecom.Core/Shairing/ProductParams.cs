@@ -6,6 +6,7 @@ namespace Ecom.Core.Shairing
 {
     public class ProductParams
     {
+        public string? Search { get; set; }
         public string? Sort { get; set; } 
         public int? CategoryId { get; set; }
         public int PageNumber { get; set; }=1;

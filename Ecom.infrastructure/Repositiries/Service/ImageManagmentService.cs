@@ -50,10 +50,19 @@ namespace Ecom.infrastructure.Repositiries.Service
 
         public void DeleteImage(string imagePath)
         {
-            var info = _fileProvider.GetFileInfo(imagePath);
-            var physicalPath = info.PhysicalPath;
-            File.Delete(physicalPath);
+            if (string.IsNullOrEmpty(imagePath)) return;
 
+            // 1. بنشيل السلاش اللي في أول المسار لو موجودة عشان الـ FileProvider ميتلخبطش
+            var cleanPath = imagePath.TrimStart('/');
+
+            var info = _fileProvider.GetFileInfo(cleanPath);
+            var physicalPath = info.PhysicalPath;
+
+            // 2. بنتأكد إن المسار الفيزيائي رجع سليم وإن الملف موجود فعلاً
+            if (!string.IsNullOrEmpty(physicalPath) && File.Exists(physicalPath))
+            {
+                File.Delete(physicalPath);
+            }
         }
     }
 }

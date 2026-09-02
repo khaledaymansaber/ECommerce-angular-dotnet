@@ -12,12 +12,24 @@ namespace Ecom.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policyBuilder =>
+                {
+                    policyBuilder.AllowAnyMethod()
+                                 .AllowAnyHeader()
+                                 .AllowCredentials()
+                                 .WithOrigins("http://localhost:4200");
+                });
+            });
+
             builder.Services.InfrastructureConfiguration(builder.Configuration);
             builder.Services.AddAutoMapper(cfg => cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
+
             builder.Services.AddRateLimiter(options =>
             {
                 options.OnRejected = async (context, token) =>
@@ -40,6 +52,7 @@ namespace Ecom.API
                     opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
                 });
             });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -50,15 +63,19 @@ namespace Ecom.API
             }
 
             app.UseMiddleware<ExceptionsMiddleware>();
-            app.UseSecurityHeaders(policies =>
-                policies.AddDefaultSecurityHeaders()
-            );
 
-            app.UseHttpsRedirection();
+            // إيقاف الهيدرز الأمني وإعادة التوجيه مؤقتاً أثناء التطوير المحلي بـ HTTP
+            // app.UseSecurityHeaders(policies => policies.AddDefaultSecurityHeaders());
+            // app.UseHttpsRedirection();
+
             app.UseRouting();
+
+            // الترتيب الصحيح لـ CORS بين Routing و Authorization
+            app.UseCors("CorsPolicy");
+
             app.UseRateLimiter();
             app.UseAuthorization();
-
+            app.UseStaticFiles();
 
             app.MapControllers();
 
