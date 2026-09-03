@@ -3,6 +3,7 @@ import { ShopService } from '../shop';
 import { IProduct } from '../../shared/Models/Product';
 import { IPagnation } from '../../shared/Models/Pagnation';
 import { ICategory } from '../../shared/Models/Category';
+import { ProductParams } from '../../shared/Models/ProductParams';
 
 @Component({
   selector: 'app-shop',
@@ -14,8 +15,12 @@ export class Shop implements OnInit {
 
   products = signal<IProduct[]>([]);
   Categories = signal<ICategory[]>([]);
-  selectedCategoryId: number = 0;
-  SortSelected: string = 'Name';
+  ProductParams = new ProductParams();
+  TotalCount!:number
+  //selectedCategoryId: number = 0;
+  //SortSelected: string = 'Name';
+ // Search!:string
+
 
   constructor(private shopService: ShopService) {}
 
@@ -26,11 +31,14 @@ export class Shop implements OnInit {
 
   }
 
-  getProducts(category?:number) {
-    this.shopService.getProduct(category,this.SortSelected).subscribe({
+  getProducts() {
+    this.shopService.getProduct( this.ProductParams).subscribe({
       next: (value:IPagnation) => {
 
         this.products.set(value.data);
+        this.TotalCount=value.totalCount
+        this.ProductParams.pageNumber=value.pageNumber
+        this.ProductParams.pageSize=value.pageSize
       },
 
   error: (err) => {
@@ -47,9 +55,8 @@ export class Shop implements OnInit {
     });
   }
   selectedById(categoryId:number){
-  this.selectedCategoryId=categoryId;
-  const categoryParam = categoryId === 0 ? undefined : categoryId;
-  this.getProducts(categoryParam);
+  this.ProductParams.selectedCategoryId=categoryId;
+  this.getProducts();
   }
 SortingOption = [
     { name: "Name", value: 'Name' },
@@ -58,8 +65,26 @@ SortingOption = [
   ]
 
 SortingByPrice(sort: Event) {
-    this.SortSelected = (sort.target as HTMLInputElement).value;
-    const categoryParam = this.selectedCategoryId === 0 ? undefined : this.selectedCategoryId;
-    this.getProducts(categoryParam);
+    this.ProductParams.SortSelected = (sort.target as HTMLInputElement).value;
+    this.getProducts();
+  }
+  OnSearch(Search:string){
+    this.ProductParams.Search=Search
+    this.getProducts()
+  }
+  ResetValue(searchInput: HTMLInputElement) {
+    searchInput.value = '';
+    this.ProductParams.Search = '';
+    this.ProductParams.SortSelected = 'Name';
+    this.ProductParams.selectedCategoryId = 0;
+    this.getProducts();
+  }
+  OnChangePage(pageNumber: number) {
+
+    if (this.ProductParams.pageNumber !== pageNumber) {
+      this.ProductParams.pageNumber = pageNumber;
+
+      this.getProducts();
+    }
   }
 }

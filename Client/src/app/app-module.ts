@@ -15,7 +15,6 @@ import { ShopModule } from './shop/shop-module';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
-    SharedModule,
     ShopModule
   ],
   providers: [
