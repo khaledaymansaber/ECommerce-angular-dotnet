@@ -11,13 +11,7 @@ import { IPagnation } from './shared/Models/Pagnation';
 })
 export class App implements OnInit {
 
-
-
-
-
   constructor() {}
-
-
 
   ngOnInit(): void {
 

@@ -1,7 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Home } from './home/home';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '', component: Home },
+  {
+    path: 'shop',
+    // تأكد من تغيير shop-module لتطابق اسم الملف الفعلي لديك
+    loadChildren: () => import('./shop/shop-module').then(m => m.ShopModule)
+  },
+  { path: '**' ,redirectTo:'', pathMatch:'full' }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

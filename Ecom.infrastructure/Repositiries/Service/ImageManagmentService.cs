@@ -18,7 +18,11 @@ namespace Ecom.infrastructure.Repositiries.Service
         {
             List<string> SaveImageSrc = new List<string>();
 
-            var ImageDirctory = Path.Combine("wwwroot", "Images", src);
+            
+            var cleanSrc = src.Trim();
+
+            
+            var ImageDirctory = Path.Combine("wwwroot", "Images", cleanSrc);
 
             if (Directory.Exists(ImageDirctory) is not true)
             {
@@ -29,10 +33,10 @@ namespace Ecom.infrastructure.Repositiries.Service
             {
                 if (item.Length > 0)
                 {
-                    // get Image Name
                     var ImageName = item.FileName;
 
-                    var ImageSrc = $"/Images/{src}/{ImageName}";
+                    
+                    var ImageSrc = $"/Images/{cleanSrc}/{ImageName}";
 
                     var root = Path.Combine(ImageDirctory, ImageName);
 

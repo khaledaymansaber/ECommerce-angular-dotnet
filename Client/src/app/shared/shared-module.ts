@@ -1,15 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PaginationComponent, PaginationModule } from 'ngx-bootstrap/pagination';
+import { Pagnation } from './Component/pagnation/pagnation';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    PaginationModule
-  ],
-  exports: [
-    PaginationModule
-  ]
+  declarations: [Pagnation],
+  imports: [CommonModule, PaginationModule],
+  exports: [PaginationModule ,Pagnation],
 })
 export class SharedModule {}

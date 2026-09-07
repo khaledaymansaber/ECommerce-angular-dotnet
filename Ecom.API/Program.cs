@@ -46,7 +46,7 @@ namespace Ecom.API
                 options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
                 options.AddFixedWindowLimiter("FixedPolicy", opt =>
                 {
-                    opt.PermitLimit = 3;
+                    opt.PermitLimit = 100;
                     opt.Window = TimeSpan.FromSeconds(10);
                     opt.QueueLimit = 0;
                     opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;

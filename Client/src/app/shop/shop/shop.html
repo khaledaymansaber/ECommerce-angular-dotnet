@@ -1,4 +1,4 @@
-<div class="container mt-5">
+@if (products()) {<div class="container mt-5">
   <div class="row">
     <h1 class="main-title">Shopping</h1>
     <section class="col-md-3">
@@ -41,7 +41,7 @@
     <section class="col-md-9">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="paging-container">
-          <span class="text-dark">showing {{products().length}} of {{TotalCount}}</span>
+          <span class="text-dark">showing {{ products().length }} of {{ TotalCount }}</span>
         </div>
 
         <div class="search-container">
@@ -70,11 +70,15 @@
             <app-shop-item class="product-item col-lg-4 col-md-6" [product]="item"></app-shop-item>
           </ng-container>
         }
-        <div class="d-flex justify-content-center align-items-center mt-5">
-          <pagination
-            [totalItems]="TotalCount" [itemsPerPage]="3" (pageChanged)="OnChangePage($event.page)" [boundaryLinks]="true"></pagination>
-        </div>
+<div class="d-flex justify-content-center align-items-center mt-5">
+  <app-pagnation
+    [TotalCount]="TotalCount"
+    [pageSize]="ProductParams.pageSize"
+    (pageChanged)="OnChangePage($event)">
+  </app-pagnation>
+</div>
       </div>
     </section>
   </div>
 </div>
+}
