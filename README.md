@@ -1,6 +1,6 @@
 # 🛒 Ecom-Angular-With-DotNetApi
 
-A full-stack, enterprise-level e-commerce web application combining a responsive **Angular 17** frontend with a robust, modular **ASP.NET Core (.NET 8)** backend API. 
+A full-stack, enterprise-level e-commerce web application combining a responsive **Angular 22** frontend with a robust, modular **ASP.NET Core (.NET 10)** backend API. 
 
 This project follows **Clean Architecture** principles, ensuring a strict separation of concerns among the API, core domain logic, and infrastructure layers, making it highly scalable and maintainable.
 
@@ -8,7 +8,7 @@ This project follows **Clean Architecture** principles, ensuring a strict separa
 
 ## ✨ Key Features
 
-### Backend (.NET 8 API)
+### Backend (.NET 10 API)
 * **Modular Architecture:** Separated into `API`, `Core`, and `Infrastructure` layers.
 * **Comprehensive REST Endpoints:** Manages Products, Categories, Baskets (Shopping Cart), Orders, Payments, Ratings, and User Accounts.
 * **Security & Auth:** JWT-based authentication and authorization.
