@@ -46,9 +46,9 @@ namespace Ecom.API
                 options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
                 options.AddFixedWindowLimiter("FixedPolicy", opt =>
                 {
-                    opt.PermitLimit = 100;
-                    opt.Window = TimeSpan.FromSeconds(10);
-                    opt.QueueLimit = 0;
+                    opt.PermitLimit = 60; // 60 طلب في الدقيقة (بمتوسط طلب كل ثانية، كافي جداً للاستخدام الطبيعي)
+                    opt.Window = TimeSpan.FromMinutes(1); // الإطار الزمني دقيقة واحدة
+                    opt.QueueLimit = 0; // الأفضل نخليه صفر عشان السيرفر يرفض الطلب فوراً بـ 429 بدل ما يستهلك موارد في الانتظار
                     opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
                 });
             });

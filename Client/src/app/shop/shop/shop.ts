@@ -4,6 +4,7 @@ import { IProduct } from '../../shared/Models/Product';
 import { IPagnation } from '../../shared/Models/Pagnation';
 import { ICategory } from '../../shared/Models/Category';
 import { ProductParams } from '../../shared/Models/ProductParams';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shop',
@@ -22,7 +23,7 @@ export class Shop implements OnInit {
  // Search!:string
 
 
-  constructor(private shopService: ShopService) {}
+  constructor(private shopService: ShopService,private toast:ToastrService) {}
 
   ngOnInit(): void {
 
@@ -39,6 +40,7 @@ export class Shop implements OnInit {
         this.TotalCount=value.totalCount
         this.ProductParams.pageNumber=value.pageNumber
         this.ProductParams.pageSize=value.pageSize
+        this.toast.success( "Product Loaded Successfully","SUCCESS")
       },
 
   error: (err) => {
