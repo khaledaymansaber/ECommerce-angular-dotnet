@@ -17,7 +17,7 @@ This project follows **Clean Architecture** principles, ensuring a strict separa
 * **API Documentation:** Interactive Swagger UI enabled in development.
 * **CORS Policy:** Configured to accept requests from the Angular frontend (`http://localhost:4200`).
 
-### Frontend (Angular 17)
+### Frontend (Angular 22)
 * **Modern UI Framework:** Built with Angular 17 utilizing components, services, route guards, and pipes.
 * **State & Data Management:** Seamless integration with backend REST APIs.
 * **Testing:** Configured for unit testing with **Karma**.
