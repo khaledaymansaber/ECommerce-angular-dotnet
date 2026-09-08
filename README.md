@@ -1,4 +1,4 @@
-# 🛒 Ecom-Angular-With-DotNetApi
+# 🛒 Ecom-Angular-With-DotNetApi(Under Development)
 
 A full-stack, enterprise-level e-commerce web application combining a responsive **Angular 22** frontend with a robust, modular **ASP.NET Core (.NET 10)** backend API. 
 
