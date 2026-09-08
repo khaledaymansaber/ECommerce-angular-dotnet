@@ -18,7 +18,7 @@ This project follows **Clean Architecture** principles, ensuring a strict separa
 * **CORS Policy:** Configured to accept requests from the Angular frontend (`http://localhost:4200`).
 
 ### Frontend (Angular 22)
-* **Modern UI Framework:** Built with Angular 17 utilizing components, services, route guards, and pipes.
+* **Modern UI Framework:** Built with Angular 22 utilizing components, services, route guards, and pipes.
 * **State & Data Management:** Seamless integration with backend REST APIs.
 * **Testing:** Configured for unit testing with **Karma**.
 * **Production Ready:** Build-ready configuration optimized for deployment.
@@ -27,8 +27,8 @@ This project follows **Clean Architecture** principles, ensuring a strict separa
 
 ## 🛠️ Tech Stack
 
-* **Frontend:** Angular 17, TypeScript, HTML, CSS, Karma.
-* **Backend:** C# 12, .NET 8, ASP.NET Core Web API.
+* **Frontend:** Angular 22, TypeScript, HTML, CSS, Karma.
+* **Backend:** C# 12, .NET 10, ASP.NET Core Web API.
 * **Data & Infrastructure:** Entity Framework Core, SQL Server (or relational DB of choice).
 * **Patterns & Libraries:** Clean Architecture, Repository Pattern, Unit of Work, AutoMapper, Swagger.
 
